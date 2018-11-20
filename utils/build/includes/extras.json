@@ -77,6 +77,7 @@
 	"examples/js/postprocessing/FilmPass.js",
 	"examples/js/postprocessing/DotScreenPass.js",
 	"examples/js/postprocessing/UnrealBloomPass.js",
+	"examples/js/postprocessing/OutlinePass.js",
 	"examples/js/shaders/CopyShader.js",
 	"examples/js/shaders/SSAOShader.js",
 	"examples/js/shaders/BleachBypassShader.js",
