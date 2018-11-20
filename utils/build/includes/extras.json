@@ -89,5 +89,6 @@
 	"examples/js/shaders/SepiaShader.js",
 	"examples/js/shaders/VerticalBlurShader.js",
 	"examples/js/shaders/VignetteShader.js",
-	"examples/js/shaders/LuminosityHighPassShader.js"
+	"examples/js/shaders/LuminosityHighPassShader.js",
+	"examples/js/shaders/FXAAShader.js"
 ]
