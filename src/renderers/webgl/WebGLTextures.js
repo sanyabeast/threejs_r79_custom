@@ -425,50 +425,26 @@ THREE.WebGLTextures = function ( _gl, extensions, state, properties, capabilitie
 
 		var mipmap, mipmaps = texture.mipmaps;
 
-		if ( texture instanceof THREE.DepthTexture ) {
+		// regular Texture (image, video, canvas)
 
-			// populate depth texture with dummy data
+		// use manually created mipmaps if available
+		// if there are no manual mipmaps
+		// set 0 level mipmap and then use GL to generate other mipmap levels
 
-			var internalFormat = _gl.DEPTH_COMPONENT;
+		if ( mipmaps.length > 0 && isPowerOfTwoImage ) {
 
-			if ( texture.type === THREE.FloatType ) {
+			for ( var i = 0, il = mipmaps.length; i < il; i ++ ) {
 
-				if ( !_isWebGL2 ) throw new Error('Float Depth Texture only supported in WebGL2.0');
-				internalFormat = _gl.DEPTH_COMPONENT32F;
-
-			} else if ( _isWebGL2 ) {
-
-				// WebGL 2.0 requires signed internalformat for glTexImage2D
-				internalFormat = _gl.DEPTH_COMPONENT16;
+				mipmap = mipmaps[ i ];
+				state.texImage2D( _gl.TEXTURE_2D, i, glFormat, glFormat, glType, mipmap );
 
 			}
 
-			state.texImage2D( _gl.TEXTURE_2D, 0, internalFormat, image.width, image.height, 0, glFormat, glType, null );
+			texture.generateMipmaps = false;
 
-		}  else {
+		} else {
 
-			// regular Texture (image, video, canvas)
-
-			// use manually created mipmaps if available
-			// if there are no manual mipmaps
-			// set 0 level mipmap and then use GL to generate other mipmap levels
-
-			if ( mipmaps.length > 0 && isPowerOfTwoImage ) {
-
-				for ( var i = 0, il = mipmaps.length; i < il; i ++ ) {
-
-					mipmap = mipmaps[ i ];
-					state.texImage2D( _gl.TEXTURE_2D, i, glFormat, glFormat, glType, mipmap );
-
-				}
-
-				texture.generateMipmaps = false;
-
-			} else {
-
-				state.texImage2D( _gl.TEXTURE_2D, 0, glFormat, glFormat, glType, image );
-
-			}
+			state.texImage2D( _gl.TEXTURE_2D, 0, glFormat, glFormat, glType, image );
 
 		}
 

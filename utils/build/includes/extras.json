@@ -24,16 +24,10 @@
 	"src/extras/objects/MorphBlendMesh.js",
 	"examples/js/postprocessing/EffectComposer.js",
 	"examples/js/postprocessing/RenderPass.js",
-	"examples/js/postprocessing/TexturePass.js",
 	"examples/js/postprocessing/ShaderPass.js",
 	"examples/js/postprocessing/MaskPass.js",
 	"examples/js/postprocessing/BloomPass.js",
 	"examples/js/postprocessing/OutlinePass.js",
 	"examples/js/shaders/CopyShader.js",
-	"examples/js/shaders/BleachBypassShader.js",
-	"examples/js/shaders/ColorifyShader.js",
-	"examples/js/shaders/ConvolutionShader.js",
-	"examples/js/shaders/HorizontalBlurShader.js",
-	"examples/js/shaders/VerticalBlurShader.js",
 	"examples/js/shaders/VignetteShader.js"
 ]
