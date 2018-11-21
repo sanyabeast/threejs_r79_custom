@@ -49,17 +49,6 @@ THREE.WebGLPrograms = function ( renderer, capabilities ) {
 
 			var maxBones = nVertexMatrices;
 
-			if ( object !== undefined && object instanceof THREE.SkinnedMesh ) {
-
-				maxBones = Math.min( object.skeleton.bones.length, maxBones );
-
-				if ( maxBones < object.skeleton.bones.length ) {
-
-					console.warn( 'WebGLRenderer: too many bones - ' + object.skeleton.bones.length + ', this GPU supports just ' + maxBones + ' (try OpenGL instead of ANGLE)' );
-
-				}
-
-			}
 
 			return maxBones;
 
@@ -151,8 +140,8 @@ THREE.WebGLPrograms = function ( renderer, capabilities ) {
 			vertexColors: material.vertexColors,
 
 			fog: fog,
-			useFog: material.fog,
-			fogExp: fog instanceof THREE.FogExp2,
+			useFog: false,
+			fogExp: false,
 
 			flatShading: material.shading === THREE.FlatShading,
 
@@ -175,8 +164,8 @@ THREE.WebGLPrograms = function ( renderer, capabilities ) {
 
 			numClippingPlanes: nClipPlanes,
 
-			shadowMapEnabled: renderer.shadowMap.enabled && object.receiveShadow && lights.shadows.length > 0,
-			shadowMapType: renderer.shadowMap.type,
+			shadowMapEnabled: false,
+			shadowMapType: 1,
 
 			toneMapping: renderer.toneMapping,
 			physicallyCorrectLights: renderer.physicallyCorrectLights,

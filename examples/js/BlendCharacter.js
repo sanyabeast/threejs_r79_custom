@@ -18,11 +18,6 @@ THREE.BlendCharacter = function () {
 			// so we must fish it out of the hierarchy it is embedded in (scene)
 			loadedObject.traverse( function( object ) {
 
-				if ( object instanceof THREE.SkinnedMesh ) {
-
-					scope.skinnedMesh = object;
-
-				}
 
 			} );
 

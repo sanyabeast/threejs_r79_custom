@@ -280,35 +280,7 @@ Object.assign( THREE.BufferGeometry.prototype, THREE.EventDispatcher.prototype, 
 
 		var geometry = object.geometry;
 
-		if ( object instanceof THREE.Points || object instanceof THREE.Line ) {
-
-			var positions = new THREE.Float32Attribute( geometry.vertices.length * 3, 3 );
-			var colors = new THREE.Float32Attribute( geometry.colors.length * 3, 3 );
-
-			this.addAttribute( 'position', positions.copyVector3sArray( geometry.vertices ) );
-			this.addAttribute( 'color', colors.copyColorsArray( geometry.colors ) );
-
-			if ( geometry.lineDistances && geometry.lineDistances.length === geometry.vertices.length ) {
-
-				var lineDistances = new THREE.Float32Attribute( geometry.lineDistances.length, 1 );
-
-				this.addAttribute( 'lineDistance', lineDistances.copyArray( geometry.lineDistances ) );
-
-			}
-
-			if ( geometry.boundingSphere !== null ) {
-
-				this.boundingSphere = geometry.boundingSphere.clone();
-
-			}
-
-			if ( geometry.boundingBox !== null ) {
-
-				this.boundingBox = geometry.boundingBox.clone();
-
-			}
-
-		} else if ( object instanceof THREE.Mesh ) {
+		if ( object instanceof THREE.Mesh ) {
 
 			if ( geometry instanceof THREE.Geometry ) {
 

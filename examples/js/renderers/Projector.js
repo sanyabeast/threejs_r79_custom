@@ -356,11 +356,7 @@ THREE.Projector = function () {
 
 		scene.traverseVisible( function ( object ) {
 
-			if ( object instanceof THREE.Light ) {
-
-				_renderData.lights.push( object );
-
-			} else if ( object instanceof THREE.Mesh || object instanceof THREE.Line ) {
+			if ( object instanceof THREE.Mesh ) {
 
 				if ( object.material.visible === false ) return;
 				if ( object.frustumCulled === true && _frustum.intersectsObject( object ) === false ) return;

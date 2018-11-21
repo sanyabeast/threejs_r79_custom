@@ -335,15 +335,13 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 	// shadow map
 
-	var shadowMap = new THREE.WebGLShadowMap( this, _lights, objects );
+	// var shadowMap = new THREE.WebGLShadowMap( this, _lights, objects );
 
-	this.shadowMap = shadowMap;
+	// this.shadowMap = shadowMap;
 
 
 	// Plugins
 
-	var spritePlugin = new THREE.SpritePlugin( this, sprites );
-	var lensFlarePlugin = new THREE.LensFlarePlugin( this, lensFlares );
 
 	// API
 
@@ -843,11 +841,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 			}
 
-		} else if ( object instanceof THREE.Points ) {
-
-			renderer.setMode( _gl.POINTS );
-
-		}
+		} 
 
 		if ( geometry instanceof THREE.InstancedBufferGeometry ) {
 
@@ -1137,7 +1131,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 		setupShadows( lights );
 
-		shadowMap.render( scene, camera );
+		// shadowMap.render( scene, camera );
 
 		setupLights( lights, camera );
 
@@ -1222,8 +1216,6 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 		// custom render plugins (post pass)
 
-		spritePlugin.render( scene, camera );
-		lensFlarePlugin.render( scene, camera, _currentViewport );
 
 		// Generate mipmap if we're using any kind of mipmap filtering
 
@@ -1349,21 +1341,13 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 		if ( object.layers.test( camera.layers ) ) {
 
-			if ( object instanceof THREE.Light ) {
-
-				lights.push( object );
-
-			} else if ( object instanceof THREE.Sprite ) {
+			if ( object instanceof THREE.Sprite ) {
 
 				if ( object.frustumCulled === false || isSpriteViewable( object ) === true ) {
 
 					sprites.push( object );
 
 				}
-
-			} else if ( object instanceof THREE.LensFlare ) {
-
-				lensFlares.push( object );
 
 			} else if ( object instanceof THREE.ImmediateRenderObject ) {
 
@@ -1376,13 +1360,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 				pushRenderItem( object, null, object.material, _vector3.z, null );
 
-			} else if ( object instanceof THREE.Mesh || object instanceof THREE.Line || object instanceof THREE.Points ) {
-
-				if ( object instanceof THREE.SkinnedMesh ) {
-
-					object.skeleton.update();
-
-				}
+			} else if ( object instanceof THREE.Mesh) {
 
 				if ( object.frustumCulled === false || isObjectViewable( object ) === true ) {
 
@@ -1759,8 +1737,6 @@ THREE.WebGLRenderer = function ( parameters ) {
 			// (shader material also gets them for the sake of genericity)
 
 			if ( material instanceof THREE.ShaderMaterial ||
-				 material instanceof THREE.MeshPhongMaterial ||
-				 material instanceof THREE.MeshStandardMaterial ||
 				 material.envMap ) {
 
 				var uCamPos = p_uniforms.map.cameraPosition;
@@ -1774,10 +1750,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 			}
 
-			if ( material instanceof THREE.MeshPhongMaterial ||
-				 material instanceof THREE.MeshLambertMaterial ||
-				 material instanceof THREE.MeshBasicMaterial ||
-				 material instanceof THREE.MeshStandardMaterial ||
+			if ( material instanceof THREE.MeshBasicMaterial ||
 				 material instanceof THREE.ShaderMaterial ||
 				 material.skinning ) {
 
@@ -1844,11 +1817,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 			}
 
-			if ( material instanceof THREE.MeshBasicMaterial ||
-				 material instanceof THREE.MeshLambertMaterial ||
-				 material instanceof THREE.MeshPhongMaterial ||
-				 material instanceof THREE.MeshStandardMaterial ||
-				 material instanceof THREE.MeshDepthMaterial ) {
+			if ( material instanceof THREE.MeshBasicMaterial ) {
 
 				refreshUniformsCommon( m_uniforms, material );
 
@@ -1856,50 +1825,6 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 			// refresh single material specific uniforms
 
-			if ( material instanceof THREE.LineBasicMaterial ) {
-
-				refreshUniformsLine( m_uniforms, material );
-
-			} else if ( material instanceof THREE.LineDashedMaterial ) {
-
-				refreshUniformsLine( m_uniforms, material );
-				refreshUniformsDash( m_uniforms, material );
-
-			} else if ( material instanceof THREE.PointsMaterial ) {
-
-				refreshUniformsPoints( m_uniforms, material );
-
-			} else if ( material instanceof THREE.MeshLambertMaterial ) {
-
-				refreshUniformsLambert( m_uniforms, material );
-
-			} else if ( material instanceof THREE.MeshPhongMaterial ) {
-
-				refreshUniformsPhong( m_uniforms, material );
-
-			} else if ( material instanceof THREE.MeshPhysicalMaterial ) {
-
-				refreshUniformsPhysical( m_uniforms, material );
-
-			} else if ( material instanceof THREE.MeshStandardMaterial ) {
-
-				refreshUniformsStandard( m_uniforms, material );
-
-			} else if ( material instanceof THREE.MeshDepthMaterial ) {
-
-				if ( material.displacementMap ) {
-
-					m_uniforms.displacementMap.value = material.displacementMap;
-					m_uniforms.displacementScale.value = material.displacementScale;
-					m_uniforms.displacementBias.value = material.displacementBias;
-
-				}
-
-			} else if ( material instanceof THREE.MeshNormalMaterial ) {
-
-				m_uniforms.opacity.value = material.opacity;
-
-			}
 
 			THREE.WebGLUniforms.upload(
 					_gl, materialProperties.uniformsList, m_uniforms, _this );

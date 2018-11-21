@@ -539,30 +539,8 @@ THREE.SoftwareRenderer = function ( parameters ) {
 
 			material.addEventListener( 'update', onMaterialUpdate );
 
-			if ( material instanceof THREE.MeshBasicMaterial ||
-				material instanceof THREE.MeshLambertMaterial ||
-				material instanceof THREE.MeshPhongMaterial ||
-				material instanceof THREE.SpriteMaterial ) {
+			if ( material instanceof THREE.MeshBasicMaterial ) {
 
-				if ( material instanceof THREE.MeshLambertMaterial ) {
-
-					// Generate color palette
-					if ( ! material.palette ) {
-
-						material.palette = getPalette( material, false );
-
-					}
-
-				} else if ( material instanceof THREE.MeshPhongMaterial ) {
-
-					// Generate color palette
-					if ( ! material.palette ) {
-
-						material.palette = getPalette( material, true );
-
-					}
-
-				}
 
 				var string;
 
@@ -616,19 +594,6 @@ THREE.SoftwareRenderer = function ( parameters ) {
 					shader = new Function( 'buffer, depthBuf, offset, depth, u, v, n, face, material', string );
 
 				}
-
-			} else if ( material instanceof THREE.LineBasicMaterial ) {
-
-				var string = [
-					'var colorOffset = offset * 4;',
-					'buffer[ colorOffset ] = material.color.r * (color1.r+color2.r) * 0.5 * 255;',
-					'buffer[ colorOffset + 1 ] = material.color.g * (color1.g+color2.g) * 0.5 * 255;',
-					'buffer[ colorOffset + 2 ] = material.color.b * (color1.b+color2.b) * 0.5 * 255;',
-					'buffer[ colorOffset + 3 ] = 255;',
-					'depthBuf[ offset ] = depth;'
-				].join('\n');
-
-				shader = new Function( 'buffer, depthBuf, offset, depth, color1, color2, material', string );
 
 			} else {
 

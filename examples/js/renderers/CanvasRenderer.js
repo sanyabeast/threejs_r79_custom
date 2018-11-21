@@ -714,9 +714,7 @@ THREE.CanvasRenderer = function ( parameters ) {
 				 ? strokePath( _color, material.wireframeLinewidth, material.wireframeLinecap, material.wireframeLinejoin )
 				 : fillPath( _color );
 
-		} else if ( material instanceof THREE.MeshBasicMaterial ||
-				    material instanceof THREE.MeshLambertMaterial ||
-				    material instanceof THREE.MeshPhongMaterial ) {
+		} else if ( material instanceof THREE.MeshBasicMaterial  ) {
 
 			if ( material.map !== null ) {
 
@@ -765,17 +763,7 @@ THREE.CanvasRenderer = function ( parameters ) {
 
 			}
 
-		} else if ( material instanceof THREE.MeshNormalMaterial ) {
-
-			_normal.copy( element.normalModel ).applyMatrix3( _normalViewMatrix );
-
-			_color.setRGB( _normal.x, _normal.y, _normal.z ).multiplyScalar( 0.5 ).addScalar( 0.5 );
-
-			material.wireframe === true
-				 ? strokePath( _color, material.wireframeLinewidth, material.wireframeLinecap, material.wireframeLinejoin )
-				 : fillPath( _color );
-
-		} else {
+		}  else {
 
 			_color.setRGB( 1, 1, 1 );
 
@@ -820,17 +808,6 @@ THREE.CanvasRenderer = function ( parameters ) {
 	}
 
 	function textureToPattern( texture ) {
-
-		if ( texture.version === 0 ||
-			texture instanceof THREE.CompressedTexture ||
-			texture instanceof THREE.DataTexture ) {
-
-			return {
-				canvas: undefined,
-				version: texture.version
-			};
-
-		}
 
 		var image = texture.image;
 

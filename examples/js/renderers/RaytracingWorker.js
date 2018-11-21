@@ -195,9 +195,7 @@ THREE.RaytracingRendererWorker = function ( parameters ) {
 
 			// resolve pixel diffuse color
 
-			if ( material instanceof THREE.MeshLambertMaterial ||
-				 material instanceof THREE.MeshPhongMaterial ||
-				 material instanceof THREE.MeshBasicMaterial ) {
+			if ( material instanceof THREE.MeshBasicMaterial ) {
 
 				diffuseColor.copyGammaToLinear( material.color );
 
@@ -237,95 +235,6 @@ THREE.RaytracingRendererWorker = function ( parameters ) {
 					// point visible
 
 					outputColor.add( diffuseColor );
-
-				}
-
-			} else if ( material instanceof THREE.MeshLambertMaterial ||
-						material instanceof THREE.MeshPhongMaterial ) {
-
-				var normalComputed = false;
-
-				for ( var i = 0, l = lights.length; i < l; i ++ ) {
-
-					var light = lights[ i ];
-
-					lightColor.copyGammaToLinear( light.color );
-
-					lightVector.setFromMatrixPosition( light.matrixWorld );
-					lightVector.sub( point );
-
-					rayLight.direction.copy( lightVector ).normalize();
-
-					var intersections = raycasterLight.intersectObjects( objects, true );
-
-					// point in shadow
-
-					if ( intersections.length > 0 ) continue;
-
-					// point lit
-
-					if ( normalComputed === false ) {
-
-						// the same normal can be reused for all lights
-						// (should be possible to cache even more)
-
-						computePixelNormal( normalVector, localPoint, material.shading, face, vertices );
-						normalVector.applyMatrix3( _object.normalMatrix ).normalize();
-
-						normalComputed = true;
-
-					}
-
-					// compute attenuation
-
-					var attenuation = 1.0;
-
-					if ( light.physicalAttenuation === true ) {
-
-						attenuation = lightVector.length();
-						attenuation = 1.0 / ( attenuation * attenuation );
-
-					}
-
-					lightVector.normalize();
-
-					// compute diffuse
-
-					var dot = Math.max( normalVector.dot( lightVector ), 0 );
-					var diffuseIntensity = dot * light.intensity;
-
-					lightContribution.copy( diffuseColor );
-					lightContribution.multiply( lightColor );
-					lightContribution.multiplyScalar( diffuseIntensity * attenuation );
-
-					outputColor.add( lightContribution );
-
-					// compute specular
-
-					if ( material instanceof THREE.MeshPhongMaterial ) {
-
-						halfVector.addVectors( lightVector, eyeVector ).normalize();
-
-						var dotNormalHalf = Math.max( normalVector.dot( halfVector ), 0.0 );
-						var specularIntensity = Math.max( Math.pow( dotNormalHalf, material.shininess ), 0.0 ) * diffuseIntensity;
-
-						var specularNormalization = ( material.shininess + 2.0 ) / 8.0;
-
-						specularColor.copyGammaToLinear( material.specular );
-
-						var alpha = Math.pow( Math.max( 1.0 - lightVector.dot( halfVector ), 0.0 ), 5.0 );
-
-						schlick.r = specularColor.r + ( 1.0 - specularColor.r ) * alpha;
-						schlick.g = specularColor.g + ( 1.0 - specularColor.g ) * alpha;
-						schlick.b = specularColor.b + ( 1.0 - specularColor.b ) * alpha;
-
-						lightContribution.copy( schlick );
-
-						lightContribution.multiply( lightColor );
-						lightContribution.multiplyScalar( specularNormalization * specularIntensity * attenuation );
-						outputColor.add( lightContribution );
-
-					}
 
 				}
 
@@ -533,12 +442,6 @@ THREE.RaytracingRendererWorker = function ( parameters ) {
 		lights.length = 0;
 
 		scene.traverse( function ( object ) {
-
-			if ( object instanceof THREE.Light ) {
-
-				lights.push( object );
-
-			}
 
 			if ( cache[ object.id ] === undefined ) {
 

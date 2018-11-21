@@ -533,18 +533,8 @@ Sidebar.Object = function ( editor ) {
 
 	function updateTransformRows( object ) {
 
-		if ( object instanceof THREE.Light ||
-		   ( object instanceof THREE.Object3D && object.userData.targetInverse ) ) {
-
-			objectRotationRow.setDisplay( 'none' );
-			objectScaleRow.setDisplay( 'none' );
-
-		} else {
-
-			objectRotationRow.setDisplay( '' );
-			objectScaleRow.setDisplay( '' );
-
-		}
+		objectRotationRow.setDisplay( '' );
+		objectScaleRow.setDisplay( '' );
 
 	}
 

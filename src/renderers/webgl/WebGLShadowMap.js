@@ -315,7 +315,7 @@ THREE.WebGLShadowMap = function ( _renderer, _lights, _objects ) {
 			var useMorphing = geometry.morphTargets !== undefined &&
 					geometry.morphTargets.length > 0 && material.morphTargets;
 
-			var useSkinning = object instanceof THREE.SkinnedMesh && material.skinning;
+			var useSkinning = false;
 
 			var variantIndex = 0;
 
@@ -401,7 +401,7 @@ THREE.WebGLShadowMap = function ( _renderer, _lights, _objects ) {
 
 		if ( object.visible === false ) return;
 
-		if ( object.layers.test( camera.layers ) && ( object instanceof THREE.Mesh || object instanceof THREE.Line || object instanceof THREE.Points ) ) {
+		if ( object.layers.test( camera.layers ) && ( object instanceof THREE.Mesh ) ) {
 
 			if ( object.castShadow && ( object.frustumCulled === false || _frustum.intersectsObject( object ) === true ) ) {
 

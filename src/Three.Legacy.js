@@ -209,106 +209,7 @@ Object.defineProperties( THREE.Object3D.prototype, {
 	}
 } );
 
-Object.defineProperties( THREE.LOD.prototype, {
-	objects: {
-		get: function () {
-			console.warn( 'THREE.LOD: .objects has been renamed to .levels.' );
-			return this.levels;
-		}
-	}
-} );
 
-//
-
-THREE.PerspectiveCamera.prototype.setLens = function ( focalLength, filmGauge ) {
-
-	console.warn( "THREE.PerspectiveCamera.setLens is deprecated. " +
-			"Use .setFocalLength and .filmGauge for a photographic setup." );
-
-	if ( filmGauge !== undefined ) this.filmGauge = filmGauge;
-	this.setFocalLength( focalLength );
-
-};
-
-//
-
-Object.defineProperties( THREE.Light.prototype, {
-	onlyShadow: {
-		set: function ( value ) {
-			console.warn( 'THREE.Light: .onlyShadow has been removed.' );
-		}
-	},
-	shadowCameraFov: {
-		set: function ( value ) {
-			console.warn( 'THREE.Light: .shadowCameraFov is now .shadow.camera.fov.' );
-			this.shadow.camera.fov = value;
-		}
-	},
-	shadowCameraLeft: {
-		set: function ( value ) {
-			console.warn( 'THREE.Light: .shadowCameraLeft is now .shadow.camera.left.' );
-			this.shadow.camera.left = value;
-		}
-	},
-	shadowCameraRight: {
-		set: function ( value ) {
-			console.warn( 'THREE.Light: .shadowCameraRight is now .shadow.camera.right.' );
-			this.shadow.camera.right = value;
-		}
-	},
-	shadowCameraTop: {
-		set: function ( value ) {
-			console.warn( 'THREE.Light: .shadowCameraTop is now .shadow.camera.top.' );
-			this.shadow.camera.top = value;
-		}
-	},
-	shadowCameraBottom: {
-		set: function ( value ) {
-			console.warn( 'THREE.Light: .shadowCameraBottom is now .shadow.camera.bottom.' );
-			this.shadow.camera.bottom = value;
-		}
-	},
-	shadowCameraNear: {
-		set: function ( value ) {
-			console.warn( 'THREE.Light: .shadowCameraNear is now .shadow.camera.near.' );
-			this.shadow.camera.near = value;
-		}
-	},
-	shadowCameraFar: {
-		set: function ( value ) {
-			console.warn( 'THREE.Light: .shadowCameraFar is now .shadow.camera.far.' );
-			this.shadow.camera.far = value;
-		}
-	},
-	shadowCameraVisible: {
-		set: function ( value ) {
-			console.warn( 'THREE.Light: .shadowCameraVisible has been removed. Use new THREE.CameraHelper( light.shadow.camera ) instead.' );
-		}
-	},
-	shadowBias: {
-		set: function ( value ) {
-			console.warn( 'THREE.Light: .shadowBias is now .shadow.bias.' );
-			this.shadow.bias = value;
-		}
-	},
-	shadowDarkness: {
-		set: function ( value ) {
-			console.warn( 'THREE.Light: .shadowDarkness has been removed.' );
-		}
-	},
-	shadowMapWidth: {
-		set: function ( value ) {
-			console.warn( 'THREE.Light: .shadowMapWidth is now .shadow.mapSize.width.' );
-			this.shadow.mapSize.width = value;
-		}
-	},
-	shadowMapHeight: {
-		set: function ( value ) {
-			console.warn( 'THREE.Light: .shadowMapHeight is now .shadow.mapSize.height.' );
-			this.shadow.mapSize.height = value;
-		}
-	}
-} );
 
 //
 
@@ -379,17 +280,6 @@ Object.defineProperties( THREE.Material.prototype, {
 	}
 } );
 
-Object.defineProperties( THREE.MeshPhongMaterial.prototype, {
-	metal: {
-		get: function () {
-			console.warn( 'THREE.MeshPhongMaterial: .metal has been removed. Use THREE.MeshStandardMaterial instead.' );
-			return false;
-		},
-		set: function ( value ) {
-			console.warn( 'THREE.MeshPhongMaterial: .metal has been removed. Use THREE.MeshStandardMaterial instead' );
-		}
-	}
-} );
 
 Object.defineProperties( THREE.ShaderMaterial.prototype, {
 	derivatives: {
@@ -505,19 +395,6 @@ Object.defineProperties( THREE.WebGLRenderer.prototype, {
 	}
 } );
 
-Object.defineProperties( THREE.WebGLShadowMap.prototype, {
-	cullFace: {
-		get: function () {
-			return this.renderReverseSided ? THREE.CullFaceFront : THREE.CullFaceBack;
-		},
-		set: function ( cullFace ) {
-			var value = ( cullFace !== THREE.CullFaceBack );
-			console.warn( "WebGLRenderer: .shadowMap.cullFace is deprecated. Set .shadowMap.renderReverseSided to " + value + "." );
-			this.renderReverseSided = value;
-		}
-	}
-} );
-
 //
 
 Object.defineProperties( THREE.WebGLRenderTarget.prototype, {
@@ -625,24 +502,6 @@ Object.defineProperties( THREE.WebGLRenderTarget.prototype, {
 
 //
 
-Object.assign( THREE.Audio.prototype, {
-	load: function ( file ) {
-		console.warn( 'THREE.Audio: .load has been deprecated. Please use THREE.AudioLoader.' );
-		var scope = this;
-		var audioLoader = new THREE.AudioLoader();
-		audioLoader.load( file, function ( buffer ) {
-			scope.setBuffer( buffer );
-		} );
-		return this;
-	}
-} );
-
-Object.assign( THREE.AudioAnalyser.prototype, {
-	getData: function ( file ) {
-		console.warn( 'THREE.AudioAnalyser: .getData() is now .getFrequencyData().' );
-		return this.getFrequencyData();
-	}
-} );
 
 //
 
