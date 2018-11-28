@@ -39,6 +39,7 @@
 	"src/cameras/Camera.js",
 	"src/cameras/OrthographicCamera.js",
 	"src/cameras/PerspectiveCamera.js",
+	"src/cameras/CombinedCamera.js",
 	"src/loaders/Cache.js",
 	"src/loaders/Loader.js",
 	"src/loaders/ImageLoader.js",
