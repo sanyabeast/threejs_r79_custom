@@ -15132,7 +15132,8 @@ THREE.ShaderLib[ 'physical' ] = {
 
 THREE.WebGLRenderer = function ( parameters ) {
 
-	console.log( 'THREE.WebGLRenderer', THREE.REVISION );
+	//sorry, guy
+	//console.log( 'THREE.WebGLRenderer', THREE.REVISION );
 
 	parameters = parameters || {};
 
@@ -15317,11 +15318,14 @@ THREE.WebGLRenderer = function ( parameters ) {
 			preserveDrawingBuffer: _preserveDrawingBuffer
 		};
 
-		_gl = _context || _canvas.getContext( 'webgl', attributes ) || _canvas.getContext( 'experimental-webgl', attributes );
+		var webglVersion = parameters.webglVersion || 'webgl';
 
+		_gl = _context || _canvas.getContext( webglVersion, attributes ) || _canvas.getContext( 'experimental-webgl', attributes );
+
+		console.log(_gl);
 		if ( _gl === null ) {
 
-			if ( _canvas.getContext( 'webgl' ) !== null ) {
+			if ( _canvas.getContext( webglVersion ) !== null ) {
 
 				throw 'Error creating WebGL context with your selected attributes.';
 
